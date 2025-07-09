@@ -3,11 +3,6 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ main ]  # Change if needed
-    paths:
-      - '**.py'
-      - Dockerfile
-      - .github/workflows/docker-push.yml
-
 jobs:
   docker-build-push:
     runs-on: ubuntu-latest
