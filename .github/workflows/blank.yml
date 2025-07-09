@@ -3,6 +3,9 @@ name: Build and Push Docker Image
 on:
   push:
     branches: [ main ]  # Change if needed
+
+env: 
+  SHORT_SHA: $ {{ github.sha}} 
 jobs:
   docker-build-push:
     runs-on: ubuntu-latest
@@ -10,6 +13,8 @@ jobs:
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
+      - name: set short sha 
+        run: echo "SHORT_SHA={GITHUB_SHA::7}"  >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -25,7 +30,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/python-app:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/myapacheweb:${{env.SHORT_SHA }} 
 
       - name: Image pushed successfully
         run: echo "✅ Docker image pushed!"
